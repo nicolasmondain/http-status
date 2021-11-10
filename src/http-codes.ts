@@ -1,5 +1,6 @@
+import {httpStatusCode} from './@types/http-status/index';
 
-module.exports = [
+const httpCodes:Array<httpStatusCode> = [
 
 	{status: 100, statusText: 'Continue'},
 	{status: 101, statusText: 'Switching Protocol'},
@@ -64,3 +65,5 @@ module.exports = [
 	{status: 511, statusText: 'Network Authentication Required'}
 
 ];
+
+export default httpCodes;

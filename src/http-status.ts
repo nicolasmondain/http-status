@@ -1,5 +1,3 @@
-// <reference path="./http-status.d.ts"/>
-
 import {
 
 	httpResponse,
@@ -7,9 +5,9 @@ import {
 	httpStatusKey,
 	httpStatusModule
 
-} from './http-declare';
+} from './@types/http-status/index';
 
-import * as httpCodes from './http-codes';
+import httpCodes from './http-codes';
 
 const INFORMATIVE_MIN  = 100;
 const INFORMATIVE_MAX  = 199;
@@ -36,7 +34,15 @@ const httpStatus: httpStatusModule = {
 
 	findStatus(key: httpStatusKey): httpStatusCode{
 
-		return httpCodes.find((code: httpStatusCode) => code[Number.isInteger(key) ? 'status' : 'statusText'] === key);
+		const statusCode = httpCodes.find((code: httpStatusCode) => code[Number.isInteger(key) ? 'status' : 'statusText'] === key);
+
+		if(!statusCode){
+
+			throw new Error(`Status code ${key} not found`);
+
+		};
+
+		return statusCode;
 
 	},
 	removeSpecialCharacters(string: string): string{

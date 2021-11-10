@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf ./dist && mkdir dist",
-    "test": "mocha --reporter progress src/http-status.test.js",
+    "test": "mocha --reporter progress test/*.test.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "webpack:node": "set TARGET=node&& node webpack/build.js",
     "webpack:browser": "set TARGET=browser&& node webpack/build.js",
