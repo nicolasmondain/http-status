@@ -2,19 +2,45 @@ const path = require('path');
 
 const configuration = {
 
-	entry : [path.resolve(__dirname, '../src/http-status.js')],
-	mode  : 'development',
-	module: {
+	entry  : [path.resolve(__dirname, '../src/http-status.ts')],
+	mode   : 'production',
+	devtool: 'inline-source-map',
+	module : {
 
 		rules: [
 
 			{
 
-        test   : /\.tsx?$/,
-        use    : 'ts-loader',
-        exclude: /node_modules/
+				test   : /\.ts$/u,
+				exclude: /node_modules/u,
+				include: path.resolve(__dirname, '../src'),
+				use    : 'ts-loader'
 
 			}
+
+			// {
+
+			// 	test   : /\.js$/u,
+			// 	exclude: /node_modules/u,
+			// 	include: path.resolve(__dirname, 'src'),
+			// 	use    :
+
+			// 	[
+
+			// 		{
+
+			// 			loader : 'babel-loader',
+			// 			options: {
+
+			// 				presets: ['@babel/preset-env']
+
+			// 			}
+
+			// 		}
+
+			// 	]
+
+			// }
 
 		]
 
@@ -22,12 +48,6 @@ const configuration = {
 	resolve: {
 
     extensions: ['.tsx', '.ts', '.js']
-
-  },
-	output: {
-
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, '../dist')
 
   }
 

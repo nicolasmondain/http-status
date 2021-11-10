@@ -1,33 +1,35 @@
 
 const webpack = require('webpack');
-const common  = require('./webpack.common.js');
+const node    = require('./webpack.node.js');
+const browser = require('./webpack.browser.js');
 
-webpack(common, (error, stats) => {
+const configuration = {node, browser};
+
+webpack(configuration[process.env.TARGET], (error, stats) => {
 
 	if(error){
 
-		console.log(error);
 		return 1;
 
 	}
 
 	const jsonStats = stats.toJson();
 
-	if(jsonStats.hasErrors){
+	if(jsonStats.errorsCount){
 
 		console.log('Webpack generated the following errors:');
 		return jsonStats.errors.map((stat) => console.log(stat));
 
 	}
 
-	if(jsonStats.hasWarnings){
+	if(jsonStats.warningsCount){
 
 		console.log('Webpack generated the following warnings:');
 		return jsonStats.warnings.map((stat) => console.log(stat));
 
 	}
 
-	console.log(`Your app has been built`);
+	console.log(`Your app has been built for ${process.env.TARGET}`);
 
 	return 0;
 
