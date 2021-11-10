@@ -1,8 +1,15 @@
+// <reference path="./http-status.d.ts"/>
+
+import {
+
+	httpResponse,
+	httpStatusCode,
+	httpStatusKey,
+	httpStatusModule
+
+} from './http-declare';
+
 import * as httpCodes from './http-codes';
-
-console.log(httpCodes);
-
-type httpStatusKey = number|string;
 
 const INFORMATIVE_MIN  = 100;
 const INFORMATIVE_MAX  = 199;
@@ -15,51 +22,62 @@ const CLIENT_ERROR_MAX = 499;
 const SERVER_ERROR_MIN = 500;
 const SERVER_ERROR_MAX = 599;
 
-const httpStatus = {
+const RANGE = [
 
-	findStatus(key: httpStatusKey){
+	{status: 'Informative', min: INFORMATIVE_MIN, max: INFORMATIVE_MAX},
+	{status: 'Success', min: SUCCESS_MIN, max: SUCCESS_MAX},
+	{status: 'Redirection', min: REDIRECTION_MIN, max: REDIRECTION_MAX},
+	{status: 'ClientError', min: CLIENT_ERROR_MIN, max: CLIENT_ERROR_MAX},
+	{status: 'ServerError', min: SERVER_ERROR_MIN, max: SERVER_ERROR_MAX}
 
-		return httpCodes.find((code: {status: number, statusText: string}) => code[Number.isInteger(key) ? 'status' : 'statusText'] === key);
+];
+
+const httpStatus: httpStatusModule = {
+
+	findStatus(key: httpStatusKey): httpStatusCode{
+
+		return httpCodes.find((code: httpStatusCode) => code[Number.isInteger(key) ? 'status' : 'statusText'] === key);
 
 	},
-	removeSpecialCharacters(string: string){
+	removeSpecialCharacters(string: string): string{
 
 		return string.replace(/[^a-zA-Z0-9]/gu, '');
 
 	},
-	isBetween(key: httpStatusKey, min: number, max: number){
+	addRangeMethods(){
+
+		for(let i = 0; i < RANGE.length; i += 1){
+
+			const method = `is${RANGE[i].status}`;
+
+			httpStatus[method] = (key: httpStatusKey): boolean => this.isBetween(key, RANGE[i].min, RANGE[i].max);
+
+		}
+
+		return this;
+
+	},
+	addStatusMethods(){
+
+		for(let i = 0; i < httpCodes.length; i += 1){
+
+			const method = `is${this.removeSpecialCharacters(httpCodes[i].statusText)}`;
+
+			httpStatus[method] = (key: httpStatusKey): boolean => this.findStatus(key).status === httpCodes[i].status;
+
+		}
+
+		return this;
+
+	},
+	isBetween(key: httpStatusKey, min: number, max: number): boolean{
 
 		const code = httpStatus.findStatus(key);
 
 		return code && code.status >= min && code.status <= max;
 
 	},
-	isInformative(key: httpStatusKey){
-
-		return this.isBetween(key, INFORMATIVE_MIN, INFORMATIVE_MAX);
-
-	},
-	isSuccess(key: httpStatusKey){
-
-		return this.isBetween(key, SUCCESS_MIN, SUCCESS_MAX);
-
-	},
-	isRedirection(key: httpStatusKey){
-
-		return this.isBetween(key, REDIRECTION_MIN, REDIRECTION_MAX);
-
-	},
-	isClientError(key: httpStatusKey){
-
-		return this.isBetween(key, CLIENT_ERROR_MIN, CLIENT_ERROR_MAX);
-
-	},
-	isServerError(key: httpStatusKey){
-
-		return this.isBetween(key, SERVER_ERROR_MIN, SERVER_ERROR_MAX);
-
-	},
-	formatResponse(key: httpStatusKey, message: string, data: any, error: any|null = null){
+	formatResponse(key: httpStatusKey, message: string, data: any, error: any|null = null): httpResponse{
 
 		const code = this.findStatus(key);
 
@@ -75,7 +93,10 @@ const httpStatus = {
 
 	}
 
-
 };
+
+httpStatus
+	.addRangeMethods()
+	.addStatusMethods();
 
 module.exports = httpStatus;
