@@ -40,7 +40,7 @@ const httpStatus: httpStatusModule = {
 
 			throw new Error(`Status code ${key} not found`);
 
-		};
+		}
 
 		return statusCode;
 
