@@ -1,6 +1,6 @@
-import {httpStatusCode} from './@types/http-status/index';
+import {httpStatusCodes} from './@types/http-status/index';
 
-const httpCodes:Array<httpStatusCode> = [
+const httpCodes:httpStatusCodes = [
 
 	{status: 100, statusText: 'Continue'},
 	{status: 101, statusText: 'Switching Protocol'},

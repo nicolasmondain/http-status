@@ -3,7 +3,8 @@ import {
 	httpResponse,
 	httpStatusCode,
 	httpStatusKey,
-	httpStatusModule
+	httpStatusModule,
+	httpStatusRanges
 
 } from './@types/http-status/index';
 
@@ -20,7 +21,7 @@ const CLIENT_ERROR_MAX = 499;
 const SERVER_ERROR_MIN = 500;
 const SERVER_ERROR_MAX = 599;
 
-const RANGE = [
+const RANGE:httpStatusRanges = [
 
 	{status: 'Informative', min: INFORMATIVE_MIN, max: INFORMATIVE_MAX},
 	{status: 'Success', min: SUCCESS_MIN, max: SUCCESS_MAX},
