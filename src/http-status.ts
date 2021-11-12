@@ -76,6 +76,19 @@ const httpStatus: httpStatusModule = {
 		return this;
 
 	},
+	addFormatResponseMethods(){
+
+		for(let i = 0; i < httpCodes.length; i += 1){
+
+			const method = `response${this.removeSpecialCharacters(httpCodes[i].statusText)}`;
+
+			httpStatus[method] = (key: httpStatusKey, message: string, data: any, error: any|null = null): boolean => this.formatResponse(key, message, data, error);
+
+		}
+
+		return this;
+
+	},
 	isBetween(key: httpStatusKey, min: number, max: number): boolean{
 
 		const code = httpStatus.findStatus(key);
@@ -103,6 +116,7 @@ const httpStatus: httpStatusModule = {
 
 httpStatus
 	.addRangeMethods()
-	.addStatusMethods();
+	.addStatusMethods()
+	.addFormatResponseMethods();
 
 module.exports = httpStatus;
