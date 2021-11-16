@@ -14,3 +14,6 @@ export type httpResponse     = {
 	error: any|null
 
 };
+
+// interface httpStatusCode {status: number, statusText: string}
+// interface httpResponse extends httpStatusCode {message: string, data: any, error: any|null}

@@ -21,11 +21,13 @@ const CLIENT_ERROR_MAX = 499;
 const SERVER_ERROR_MIN = 500;
 const SERVER_ERROR_MAX = 599;
 
+const rmSpeChars = (string: string): string => string.replace(/[^a-zA-Z0-9]/gu, '');
+
 const RANGE:httpStatusRanges = [
 
-	{status: 'Informative', min: INFORMATIVE_MIN, max: INFORMATIVE_MAX},
-	{status: 'Success', min: SUCCESS_MIN, max: SUCCESS_MAX},
-	{status: 'Redirection', min: REDIRECTION_MIN, max: REDIRECTION_MAX},
+	{status: 'Informative', min: INFORMATIVE_MIN,  max: INFORMATIVE_MAX},
+	{status: 'Success',     min: SUCCESS_MIN,      max: SUCCESS_MAX},
+	{status: 'Redirection', min: REDIRECTION_MIN,  max: REDIRECTION_MAX},
 	{status: 'ClientError', min: CLIENT_ERROR_MIN, max: CLIENT_ERROR_MAX},
 	{status: 'ServerError', min: SERVER_ERROR_MIN, max: SERVER_ERROR_MAX}
 
@@ -33,22 +35,31 @@ const RANGE:httpStatusRanges = [
 
 const httpStatus: httpStatusModule = {
 
-	findStatus(key: httpStatusKey): httpStatusCode{
+	findStatus(key: httpStatusKey | httpResponse): httpStatusCode{
 
-		const statusCode = httpCodes.find((code: httpStatusCode) => code[Number.isInteger(key) ? 'status' : 'statusText'] === key);
+		let statusCode: httpStatusCode | undefined = {status: 0, statusText: ''};
+
+		if(Number.isInteger(key)){
+
+			statusCode = httpCodes.find((code: httpStatusCode) => code.status === key);
+
+		}else if(typeof key === 'string'){
+
+			statusCode = httpCodes.find((code: httpStatusCode) => code.statusText === key);
+
+		}else if(typeof key === 'object' && Number.isInteger(key.status)){
+
+			statusCode = httpCodes.find((code: httpStatusCode) => code.status === key.status);
+
+		}
 
 		if(!statusCode){
 
-			throw new Error(`Status code ${key} not found`);
+			throw new Error(`Status code not found: ${JSON.stringify(key)}`);
 
 		}
 
 		return statusCode;
-
-	},
-	removeSpecialCharacters(string: string): string{
-
-		return string.replace(/[^a-zA-Z0-9]/gu, '');
 
 	},
 	addRangeMethods(){
@@ -68,7 +79,7 @@ const httpStatus: httpStatusModule = {
 
 		for(let i = 0; i < httpCodes.length; i += 1){
 
-			const method = `is${this.removeSpecialCharacters(httpCodes[i].statusText)}`;
+			const method = `is${rmSpeChars(httpCodes[i].statusText)}`;
 
 			httpStatus[method] = (key: httpStatusKey): boolean => this.findStatus(key).status === httpCodes[i].status;
 
@@ -81,7 +92,7 @@ const httpStatus: httpStatusModule = {
 
 		for(let i = 0; i < httpCodes.length; i += 1){
 
-			const method = `response${this.removeSpecialCharacters(httpCodes[i].statusText)}`;
+			const method = `res${rmSpeChars(httpCodes[i].statusText)}`;
 
 			httpStatus[method] = (key: httpStatusKey, message: string, data: any, error: any|null = null): boolean => this.formatResponse(key, message, data, error);
 
