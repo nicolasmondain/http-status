@@ -1,5 +1,5 @@
 {
-  "name": "@nicolasmondain/http-status",
+  "name": "@sharingbox/http-status",
   "version": "1.0.2",
   "description": "Send and receive HTTP statuses in JavaScript",
   "main": "index.js",
