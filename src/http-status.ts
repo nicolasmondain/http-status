@@ -108,7 +108,7 @@ const httpStatus: httpStatusModule = {
 		return code && code.status >= min && code.status <= max;
 
 	},
-	formatResponse(key: httpStatusKey, message: string, data: any, error: any|null = null): httpResponse{
+	formatResponse(key: httpStatusKey, message: string, data: any, error: any): httpResponse{
 
 		const code = this.findStatus(key);
 
