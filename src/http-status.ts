@@ -92,7 +92,7 @@ const httpStatus: httpStatusModule = {
 
 		for(let i = 0; i < httpCodes.length; i += 1){
 
-			const method = `res${rmSpeChars(httpCodes[i].statusText)}`;
+			const method = `response${rmSpeChars(httpCodes[i].statusText)}`;
 
 			httpStatus[method] = (message: string, data: any, error: any|null = null): boolean => this.formatResponse(httpCodes[i].status, message, data, error);
 
@@ -108,7 +108,7 @@ const httpStatus: httpStatusModule = {
 		return code && code.status >= min && code.status <= max;
 
 	},
-	formatResponse(key: httpStatusKey, message: string, data: any, error: any): httpResponse{
+	formatResponse(key: httpStatusKey, data: any, error: any): httpResponse{
 
 		const code = this.findStatus(key);
 
@@ -116,7 +116,6 @@ const httpStatus: httpStatusModule = {
 
 			status    : code.status,
 			statusText: code.statusText,
-			message,
 			data,
 			error
 

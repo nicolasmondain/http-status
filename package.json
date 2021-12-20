@@ -1,6 +1,6 @@
 {
   "name": "@sharingbox/http-status",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Send and receive HTTP statuses in JavaScript",
   "main": "index.js",
   "scripts": {

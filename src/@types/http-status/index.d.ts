@@ -9,7 +9,6 @@ export type httpResponse     = {
 
 	status: number,
 	statusText: string,
-	message: string,
 	data: any,
 	error: any|null
 
