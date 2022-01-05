@@ -94,7 +94,7 @@ const httpStatus: httpStatusModule = {
 
 			const method = `response${rmSpeChars(httpCodes[i].statusText)}`;
 
-			httpStatus[method] = (message: string, data: any, error: any|null = null): boolean => this.formatResponse(httpCodes[i].status, message, data, error);
+			httpStatus[method] = (data: any, error: any|null = null): boolean => this.formatResponse(httpCodes[i].status, data, error);
 
 		}
 
