@@ -1,7 +1,7 @@
 {
   "name": "@sharingbox/http-status",
-  "version": "1.0.6",
-  "description": "Send and receive HTTP statuses in JavaScript",
+  "version": "1.0.7",
+  "description": "Send, receive and check HTTP statuses in JavaScript",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf ./dist && mkdir dist",
