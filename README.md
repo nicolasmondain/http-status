@@ -39,11 +39,19 @@ const httpStatus = require('@sharingbox/http-status/dist/node');
 
 const httpResponse = httpStatus.responseOK(results);
 
-res.status(httpResponse.status).send(httpResponse.data);
+res.status(httpResponse.status).send(httpResponse.data); // res.status(200).send({status: 200, statusText: 'OK', data: results, error: null});
 
 ```
 
+
 ## Methods
+
+* [Determine the type of the HTTP response](https://github.com/nicolasmondain/http-status/blob/master/README.md#determine-the-type-of-the-http-response)
+* [Determine the exact status of the HTTP response](https://github.com/nicolasmondain/http-status/blob/master/README.md#determine-the-exact-status-of-the-http-response)
+* [Format a specific HTTP response](https://github.com/nicolasmondain/http-status/blob/master/README.md#determine-the-exact-status-of-the-http-response)
+* [Check HTTP response data content](https://github.com/nicolasmondain/http-status/blob/master/README.md#check-http-response-data-content)
+* [Other methods](https://github.com/nicolasmondain/http-status/blob/master/README.md#other-methods)
+
 
 ### Generated from the [standard http status codes](https://github.com/nicolasmondain/http-status/blob/master/src/http-codes.ts)
 
@@ -81,6 +89,19 @@ const response = {status: 201, statusText: 'Created'};
 httpStatus.isSuccess(response); // true
 httpStatus.isSuccess(response.status); // true
 httpStatus.isSuccess(response.statusText); // true
+```
+
+```js
+import httpStatus from '@sharingbox/http-status/dist/browser';
+
+const MAX_PEOPLE = 50;
+
+const data              = {people: {total: 250}};
+const httpResponse      = httpStatus.formatResponse(200, data); // {status: 200, statusText: 'OK', data}
+const checkResponseData = httpStatus.checkResponseData(httpResponse);
+
+checkResponseData.expect('people.total').toBeLessThan(MAX_PEOPLE); // false
+checkResponseData.expect('people.total').toBeTypeof('number'); // true
 
 ```
 
@@ -261,8 +282,44 @@ const httpResponse = httpStatus.responseUnauthorized();
 res.status(httpResponse.status).send(httpResponse.data); // res.status(401).send({status: 401, statusText: 'Unauthorized', data: null, error: null});
 
 ```
+### Check HTTP response data content
 
-### Standard
+```javascript
+import httpStatus from '@sharingbox/http-status/dist/browser';
+
+const data              = {a: 'a', b: {b1: {b1a: 'b1a', b1b: 'b1b'}}, c: 'c', d: 'd', e: 10};
+const httpResponse      = httpStatus.formatResponse(200, data); // {status: 200, statusText: 'OK', data}
+const checkResponseData = httpStatus.checkResponseData(httpResponse);
+
+const check1 = checkResponseData.expect('b.b1.b1a').toBeEqualTo('b1a');
+const check2 = checkResponseData.expect('e').toBeEqualTo(10);
+const check3 = checkResponseData.expect('e').toBeGreaterThan(9);
+const check4 = checkResponseData.expect('e').toBeLessThan(11);
+const check5 = checkResponseData.expect('e').toBeTypeof('number');
+const check6 = checkResponseData.expect('b.b1.b1a').toMatch(/b1a/u);
+const check7 = checkResponseData.expect('b.b1.b1c').toBeNull();
+
+```
+
+#### checkResponseData
+
+`checkResponseData` instantiate a class (`HttpCheck`). The accessible methods are:
+* toBeEqualTo
+* toBeGreaterThan
+* toBeLessThan
+* toBeTypeof
+* toMatch
+* toBeNull
+
+```javascript
+checkResponseData(response: httpResponse): HttpCheck{
+
+	return new HttpCheck(response);
+
+}
+```
+
+### Other methods
 
 #### findStatus
 
