@@ -1,6 +1,6 @@
 {
   "name": "@sharingbox/http-status",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Send, receive and check HTTP statuses in JavaScript",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,11 @@
   },
   "author": "nicolasmondain",
   "license": "MIT",
+	"keywords":[
+		"status",
+		"statusText",
+		"httpResponse"
+	],
   "bugs": {
     "url": "https://github.com/nicolasmondain/http-status/issues"
   },

@@ -2,6 +2,15 @@
 
 Send, receive and check HTTP statuses in JavaScript
 
+* no dependency
+* lightweight
+* intuitive methods generated from the [standard http status codes](https://github.com/nicolasmondain/http-status/blob/master/src/http-codes.ts)
+* browser and Node.js usage
+* type declaration [file](https://github.com/nicolasmondain/http-status/blob/master/src/%40types/http-status/index.d.ts) included
+
+[![npm downloads](https://img.shields.io/npm/dm/@sharingbox/http-status)](https://www.npmjs.com/package/@sharingbox/http-status)
+[![npm downloads](https://img.shields.io/npm/v/@sharingbox/http-status)](https://www.npmjs.com/package/@sharingbox/http-status)
+
 ## Installation
 
 ```
@@ -15,9 +24,11 @@ npm install @sharingbox/http-status --save
 ```js
 import httpStatus from '@sharingbox/http-status/dist/browser';
 
-httpStatus.formatResponse(response.status, response.data);
-httpStatus.isOK(response.status);
-httpStatus.isOK(response);
+const httpResponse = httpStatus.formatResponse(response.status, response.data, null);
+
+httpStatus.isOK(httpResponse.statusText); // boolean
+httpStatus.isOK(httpResponse.status); // boolean
+httpStatus.isOK(httpResponse); // boolean
 
 ```
 
@@ -30,17 +41,15 @@ const httpResponse = httpStatus.responseOK(results);
 
 res.status(httpResponse.status).send(httpResponse.data);
 
-const httpResponse = httpStatus.responseUnauthorized();
-
-res.status(httpResponse.status).send(httpResponse.data);
-
 ```
 
 ## Methods
 
 ### Generated from the [standard http status codes](https://github.com/nicolasmondain/http-status/blob/master/src/http-codes.ts)
 
-Each of these methods must be called with one parameter. This parameter can be the status (number) or the statusText (string) of the analyzed HTTP response, or the HTTP response itself.
+#### Determine the type of the HTTP response
+
+Each of these methods must be called with 1 parameter. This parameter can be the status (number) or the statusText (string) of the analyzed HTTP response, or the HTTP response itself.
 They return a boolean.
 
 These methods are used to determine the type of the HTTP response: informative, success, redirection, client error, server error.
@@ -75,10 +84,12 @@ httpStatus.isSuccess(response.statusText); // true
 
 ```
 
-Each of these methods must be called with one parameter. This parameter can be the status (number) or the statusText (string) of the analyzed HTTP response, or the HTTP response itself.
+#### Determine the exact status of the HTTP response
+
+Each of these methods must be called with 1 parameter. This parameter can be the status (number) or the statusText (string) of the analyzed HTTP response, or the HTTP response itself.
 They return a boolean.
 
-These methods allow you to check the exact status of an HTTP response.
+These methods allow you to check the exact status of the HTTP response.
 
 * isContinue
 * isSwitchingProtocol
@@ -162,7 +173,98 @@ httpStatus.isBadRequest(response.status); // true
 httpStatus.isBadRequest(response.statusText); // true
 
 ```
+
+#### Format a specific HTTP response
+
+Each of these methods can be called with 2 parameters (optional):
+
+* `data`: optional
+* `error`: optional
+
+The method returns the formalized HTTP response: `{status: number, statusText: string, data: any, error: any}`
+
+* responseContinue
+* responseSwitchingProtocol
+* responseProcessingWebDAV
+* responseOK
+* responseCreated
+* responseAccepted
+* responseNonAuthoritativeInformation
+* responseNoContent
+* responseResetContent
+* responsePartialContent
+* responseMultiStatusWebDAV
+* responseIMUsedHTTPDeltaencoding
+* responseMultipleChoice
+* responseMovedPermanently
+* responseFound
+* responseSeeOther
+* responseNotModified
+* responseUseProxy
+* responseunused
+* responseTemporaryRedirect
+* responsePermanentRedirect
+* responseBadRequest
+* responseUnauthorized
+* responsePaymentRequired
+* responseForbidden
+* responseNotFound
+* responseMethodNotAllowed
+* responseNotAcceptable
+* responseProxyAuthenticationRequired
+* responseRequestTimeout
+* responseConflict
+* responseGone
+* responseLengthRequired
+* responsePreconditionFailed
+* responsePayloadTooLarge
+* responseURITooLong
+* responseUnsupportedMediaType
+* responseRequestedRangeNotSatisfiable
+* responseExpectationFailed
+* responseImateapot
+* responseMisdirectedRequest
+* responseUnprocessableEntityWebDAV
+* responseLockedWebDAV
+* responseFailedDependencyWebDAV
+* responseUpgradeRequired
+* responsePreconditionRequired
+* responseTooManyRequests
+* responseRequestHeaderFieldsTooLarge
+* responseUnavailableForLegalReasons
+* responseInternalServerError
+* responseNotImplemented
+* responseBadGateway
+* responseServiceUnavailable
+* responseGatewayTimeout
+* responseHTTPVersionNotSupported
+* responseVariantAlsoNegotiates
+* responseInsufficientStorage
+* responseLoopDetectedWebDAV
+* responseNotExtended
+* responseNetworkAuthenticationRequired
+
+```js
+const httpStatus = require('@sharingbox/http-status/dist/node');
+
+const httpResponse = httpStatus.responseOK(results);
+
+res.status(httpResponse.status).send(httpResponse.data); // res.status(200).send({status: 200, statusText: 'OK', data: results, error: null});
+
+```
+
+```js
+const httpStatus = require('@sharingbox/http-status/dist/node');
+
+const httpResponse = httpStatus.responseUnauthorized();
+
+res.status(httpResponse.status).send(httpResponse.data); // res.status(401).send({status: 401, statusText: 'Unauthorized', data: null, error: null});
+
+```
+
 ### Standard
+
+#### findStatus
 
 `findStatus` must be called with 1 parameter:
 
@@ -173,6 +275,7 @@ httpStatus.isBadRequest(response.statusText); // true
 ```typescript
 findStatus(key: httpStatusKey | httpResponse): httpStatusCode
 ```
+#### formatResponse
 
 `formatResponse` must be called with 3 parameters.
 * `key`: this parameter can be the status (number) or the statusText (string) of the analyzed HTTP response, or the HTTP response itself.
