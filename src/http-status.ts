@@ -8,6 +8,7 @@ import {
 
 } from './@types/http-status/index';
 
+import {HttpCheck} from './http-check';
 import httpCodes from './http-codes';
 
 const INFORMATIVE_MIN  = 100;
@@ -120,6 +121,11 @@ const httpStatus: httpStatusModule = {
 			error
 
 		};
+
+	},
+	checkResponseData(response: httpResponse): HttpCheck{
+
+		return new HttpCheck(response);
 
 	}
 

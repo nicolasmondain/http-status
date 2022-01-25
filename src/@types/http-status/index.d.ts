@@ -14,5 +14,7 @@ export type httpResponse     = {
 
 };
 
+export type httpCheckNestedData = number|string|boolean|undefined|null;
+
 // interface httpStatusCode {status: number, statusText: string}
 // interface httpResponse extends httpStatusCode {message: string, data: any, error: any|null}
