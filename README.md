@@ -31,7 +31,19 @@ httpStatus.isOK(httpResponse.status); // boolean
 httpStatus.isOK(httpResponse); // boolean
 
 ```
+```js
+import httpStatus from '@sharingbox/http-status/dist/browser';
 
+const MAX_PEOPLE = 50;
+
+const data              = {people: {total: 250}};
+const httpResponse      = httpStatus.formatResponse(200, data); // {status: 200, statusText: 'OK', data}
+const checkResponseData = httpStatus.checkResponseData(httpResponse);
+
+checkResponseData.expect('people.total').toBeLessThan(MAX_PEOPLE); // false
+checkResponseData.expect('people.total').toBeTypeof('number'); // true
+
+```
 ### Node.js
 
 ```js
@@ -89,20 +101,6 @@ const response = {status: 201, statusText: 'Created'};
 httpStatus.isSuccess(response); // true
 httpStatus.isSuccess(response.status); // true
 httpStatus.isSuccess(response.statusText); // true
-```
-
-```js
-import httpStatus from '@sharingbox/http-status/dist/browser';
-
-const MAX_PEOPLE = 50;
-
-const data              = {people: {total: 250}};
-const httpResponse      = httpStatus.formatResponse(200, data); // {status: 200, statusText: 'OK', data}
-const checkResponseData = httpStatus.checkResponseData(httpResponse);
-
-checkResponseData.expect('people.total').toBeLessThan(MAX_PEOPLE); // false
-checkResponseData.expect('people.total').toBeTypeof('number'); // true
-
 ```
 
 #### Determine the exact status of the HTTP response
