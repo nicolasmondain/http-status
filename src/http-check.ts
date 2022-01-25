@@ -16,9 +16,9 @@ export class HttpCheck {
 
 		let nested: Record<string, any>|any = {};
 
-		const array = data.split('.');
+		if(data && typeof this.response.data === 'object'){
 
-		if(typeof this.response.data === 'object'){
+			const array = data.split('.');
 
 			if(array.length > 1){
 
@@ -49,6 +49,10 @@ export class HttpCheck {
 				return this.response.data && typeof this.response.data === 'object' ? this.response.data[array[0]] : null;
 
 			}
+
+		}else{
+
+			return this.response.data;
 
 		}
 
