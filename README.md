@@ -9,7 +9,7 @@ Send, receive and check HTTP statuses in JavaScript
 * type declaration [file](https://github.com/nicolasmondain/http-status/blob/master/src/%40types/http-status/index.d.ts) included
 
 [![npm downloads](https://img.shields.io/npm/dm/@sharingbox/http-status)](https://www.npmjs.com/package/@sharingbox/http-status)
-[![npm downloads](https://img.shields.io/npm/v/@sharingbox/http-status)](https://www.npmjs.com/package/@sharingbox/http-status)
+[![npm version](https://img.shields.io/npm/v/@sharingbox/http-status)](https://www.npmjs.com/package/@sharingbox/http-status)
 
 ## Installation
 
@@ -43,6 +43,15 @@ const checkResponseData = httpStatus.checkResponseData(httpResponse);
 checkResponseData.expect('people.total').toBeLessThan(MAX_PEOPLE); // false
 checkResponseData.expect('people.total').toBeTypeof('number'); // true
 
+```
+```js
+<script src="../node_modules/@sharingbox/http-status/dist/browser.js"></script>
+<script>
+
+	console.log(httpStatus.isInformative(100)); // true
+	console.log(httpStatus.isSuccess(200)); // true
+
+</script>
 ```
 ### Node.js
 
