@@ -16,7 +16,7 @@ export class HttpCheck {
 
 		let nested: Record<string, any>|any = {};
 
-		if(data && typeof this.response.data === 'object'){
+		if(data && typeof data === 'string' && typeof this.response.data === 'object'){
 
 			const array = data.split('.');
 
@@ -50,13 +50,9 @@ export class HttpCheck {
 
 			}
 
-		}else{
-
-			return this.response.data;
-
 		}
 
-		throw new Error('Cannot access property of non-object');
+		return this.response.data;
 
 	}
 
