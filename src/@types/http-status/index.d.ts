@@ -7,10 +7,11 @@ export type httpStatusRange  = {status:string, min: number, max: number};
 export type httpStatusRanges = Array<httpStatusRange>;
 export type httpResponse     = {
 
-	status: number,
+	status    : number,
 	statusText: string,
-	data: any,
-	error: any|null
+	data      : any,
+	error?    : any,
+	source?   : string|undefined
 
 };
 
