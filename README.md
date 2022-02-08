@@ -8,7 +8,6 @@ Send, receive and check HTTP statuses in JavaScript
 * browser and Node.js usage
 * type declaration [file](https://github.com/nicolasmondain/http-status/blob/master/src/%40types/http-status/index.d.ts) included
 
-[![npm downloads](https://img.shields.io/npm/dm/@sharingbox/http-status)](https://www.npmjs.com/package/@sharingbox/http-status)
 [![npm version](https://img.shields.io/npm/v/@sharingbox/http-status)](https://www.npmjs.com/package/@sharingbox/http-status)
 
 ## Installation
