@@ -9,8 +9,8 @@ export type httpResponseConfig = {
 
 	url   : string,
 	method: string,
-	body  : unknown,
-	server: string
+	data  : unknown,
+	source: string
 
 };
 
