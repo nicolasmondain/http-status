@@ -110,6 +110,20 @@ const httpStatus: httpStatusModule = {
 		return code && code.status >= min && code.status <= max;
 
 	},
+	formatResponseConfig(response:any, source: string): httpResponseConfig{
+
+		const formatResponseConfig = {
+
+			url   : response?.config.url || response?.request.responseURL,
+			method: response?.config.method,
+			data  : response?.config.data,
+			source
+
+		};
+
+		return formatResponseConfig;
+
+	},
 	formatResponse(key: httpStatusKey, data: unknown, error?: Error, config?: httpResponseConfig): httpResponse{
 
 		const code = this.findStatus(key);
