@@ -124,17 +124,25 @@ const httpStatus: httpStatusModule = {
 		return formatResponseConfig;
 
 	},
-	formatResponse(key: httpStatusKey, data: unknown, error?: Error, config?: httpResponseConfig): httpResponse{
+	formatResponse(key: httpStatusKey, data: unknown, error?: Error, config?: undefined|httpResponseConfig): httpResponse{
 
 		const code = this.findStatus(key);
+		const DEFAULT_RESPONSE_CONFIG: httpResponseConfig = {
+
+			url   : '',
+			method: '',
+			data  : {},
+			source: ''
+
+		};
 
 		return{
 
 			status    : code.status,
 			statusText: code.statusText,
+			config    : config ? config : DEFAULT_RESPONSE_CONFIG,
 			data,
-			error,
-			config
+			error
 
 		};
 

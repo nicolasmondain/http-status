@@ -7,10 +7,10 @@ export type httpStatusRange    = {status:string, min: number, max: number};
 export type httpStatusRanges   = Array<httpStatusRange>;
 export type httpResponseConfig = {
 
-	url   : string,
-	method: string,
-	data  : unknown,
-	source: string
+	url   : undefined|string,
+	method: undefined|string,
+	data  : undefined|unknown,
+	source: undefined|string
 
 };
 
@@ -20,7 +20,7 @@ export type httpResponse = {
 	statusText: string,
 	data      : any,
 	error?    : undefined|null|Error,
-	config?   : undefined|null|httpResponseConfig
+	config?   : httpResponseConfig
 
 };
 
