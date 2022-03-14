@@ -1,6 +1,7 @@
 import {
 
 	httpResponse,
+	httpResponseConfig,
 	httpStatusCode,
 	httpStatusKey,
 	httpStatusModule,
@@ -109,7 +110,7 @@ const httpStatus: httpStatusModule = {
 		return code && code.status >= min && code.status <= max;
 
 	},
-	formatResponse(key: httpStatusKey, data: unknown, error: unknown, source?: string): httpResponse{
+	formatResponse(key: httpStatusKey, data: unknown, error?: Error, config?: httpResponseConfig): httpResponse{
 
 		const code = this.findStatus(key);
 
@@ -119,7 +120,7 @@ const httpStatus: httpStatusModule = {
 			statusText: code.statusText,
 			data,
 			error,
-			source
+			config
 
 		};
 
