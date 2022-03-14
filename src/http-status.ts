@@ -112,11 +112,16 @@ const httpStatus: httpStatusModule = {
 	},
 	formatResponseConfig(response:any, source: string): httpResponseConfig{
 
+		const RESPONSE_CONFIG_METHOD = response.config ? response.config.method : '';
+		const RESPONSE_CONFIG_DATA   = response.config ? response.config.data : {};
+		const RESPONSE_CONFIG_URL    = response.config ? response.config.url : '';
+		const RESPONSE_REQUEST_URL   = response.request ? response.request.responseURL : '';
+
 		const formatResponseConfig = {
 
-			url   : response?.config.url || response?.request.responseURL,
-			method: response?.config.method,
-			data  : response?.config.data,
+			url   : RESPONSE_CONFIG_URL || RESPONSE_REQUEST_URL,
+			method: RESPONSE_CONFIG_METHOD,
+			data  : RESPONSE_CONFIG_DATA,
 			source
 
 		};
