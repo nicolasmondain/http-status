@@ -140,7 +140,7 @@ const httpStatus: httpStatusModule = {
 
 			status    : code.status,
 			statusText: code.statusText,
-			config    : config ? config : DEFAULT_RESPONSE_CONFIG,
+			config    : Object.assign(DEFAULT_RESPONSE_CONFIG, config),
 			data,
 			error
 
