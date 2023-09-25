@@ -28,6 +28,47 @@ npm install @nicolasmondain/http-status --save
 ```js
 import httpStatus from '@nicolasmondain/http-status/dist/browser';
 
+const URL  = '';
+const BODY = {};
+
+window.fetch(URL, {
+
+	method : 'POST',
+	body   : JSON.stringify(BODY),
+	headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+})
+.then((httpResponse) => httpResponse.json()).then((httpResponse) => {
+
+	if(httpStatus.isSuccess(httpResponse.status)){
+
+		//
+
+	}else if(httpStatus.isClientError(httpResponse.status)){
+
+		//
+
+	}else if(httpStatus.isServerError(httpResponse.status)){
+
+		//
+
+	}else{
+
+		//
+
+	}
+
+})
+.catch((error) => {
+
+	reject(error);
+
+});
+
+```
+```js
+import httpStatus from '@nicolasmondain/http-status/dist/browser';
+
 const httpResponse = httpStatus.formatResponse(response.status, response.data, null);
 
 httpStatus.isOK(httpResponse.statusText); // boolean

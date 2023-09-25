@@ -1,6 +1,6 @@
 {
   "name": "@nicolasmondain/http-status",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "description": "Send, receive and check HTTP statuses in JavaScript",
   "main": "index.js",
   "scripts": {
